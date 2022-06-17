@@ -93,6 +93,18 @@ def send_message(data: dict):
     return utils.unpack_json(response_message.json())
 
 
+def edit_message(data: dict):
+    default_parameters = {
+        'disable_web_page_preview': True,
+        'parse_mode': 'HTML',
+    }
+
+    payload = {**default_parameters, **data}
+    response_message = requests.post(EDIT_MESSAGE_URL, data=payload)
+
+    return utils.unpack_json(response_message.json())
+
+
 def ban(user_query: str) -> dict:
     user_query.is_banned = True
     db.session.commit()
@@ -439,7 +451,7 @@ def router() -> dict:
                                 'text': data['text'],
                                 'parse_mode': 'HTML',
                             }
-                            send_message(update_ad_data)
+                            edit_message(update_ad_data)
 
                             response_message_data = {
                                 'chat_id': BGB_BAZAR_COMMENTS_ID,
@@ -450,19 +462,12 @@ def router() -> dict:
                               
             elif 'Telegram' in json_object['message']['from']['first_name'] and BOT_NAME in json_object['message']['sender_chat']['username']:
                 message_id = json_object['message']['message_id']
-<<<<<<< HEAD
                 message = ( 
                     'Ao finalizar uma negociação, utilize <a href="https://forms.gle/ijUTg5fZst4tgxx66">este formulário</a> de avaliação de reputação da outra parte.'
                     '\n\n'
-                    'Quando precisar modificar algum item do seu anúncio, use os comandos listados <a href="https://t.me/bazarbgb/1165">nesta mensagem</a> conforme o respectivo caso.'
+                    'Quando precisar modificar algum item do seu anúncio, use o comando apropriado conforme <a href="https://t.me/bazarbgb/1165">esta mensagem</a>.'
                     '\n\n'
                     'Bons negócios!'
-=======
-                message = (
-                    'Ao finalizar uma negociação, utilize <a href="https://forms.gle/ijUTg5fZst4tgxx66">este formulário de avaliação</a> de reputação da outra parte.'
-                    '\n\n'
-                    'Quando precisar alterar a disponibilidade ou o valor de algum itens cadastrados, utilize os comandos listados <a href="https://t.me/bazarbgb/1165">nesta mensagem</a> conforme for o caso.'
->>>>>>> f563e5cc2271a67a0b81e8668bc54c1d06fc5535
                 )
                 
                 message_key = 'edited_message' if 'edited_message' in json_object.keys() else 'message'
