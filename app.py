@@ -27,6 +27,9 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
 
+if not os.path.exists(DB_NAME):
+    db.create_all()
+
 from schema import Ad, User
 
 
@@ -333,6 +336,25 @@ def submit() -> dict:
                 post = requests.post(SUBMIT_URL, data=payload)
                 utils.unpack_json(post.json())
 
+                message = 'Seu anúncio foi publicado no @BazarBGB com sucesso!'
+
+                reply_markup = {
+                    'inline_keyboard': [[
+                        {
+                            'text': '👉 Visualizar seu anúncio!', 
+                            'url': message_url
+                        }
+                    ]]
+                }
+
+                new_ad_payload = {
+                    'chat_id': target_id, 
+                    'text': message,
+                    'parse_mode': 'HTML',
+                    'disable_web_page_preview': True, 
+                    'reply_markup': reply_markup
+                }
+
                 if (post.status_code != 200):
                     return jsonify({
                         'status': f'ERRO {post.status_code}.'
@@ -466,8 +488,6 @@ def router() -> dict:
                     'Ao finalizar uma negociação, utilize <a href="https://forms.gle/ijUTg5fZst4tgxx66">este formulário</a> de avaliação de reputação da outra parte.'
                     '\n\n'
                     'Quando precisar modificar algum item do seu anúncio, use o comando apropriado conforme <a href="https://t.me/bazarbgb/1165">esta mensagem</a>.'
-                    '\n\n'
-                    'Bons negócios!'
                 )
                 
                 message_key = 'edited_message' if 'edited_message' in json_object.keys() else 'message'
