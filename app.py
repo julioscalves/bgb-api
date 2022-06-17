@@ -324,23 +324,25 @@ def submit() -> dict:
                 utils.unpack_json(post.json())
 
                 message = 'Seu anúncio foi publicado no @BazarBGB com sucesso!'
+                message_url = f'https://t.me/c/{int(str(post.json()["id"]).replace("-100", ""))}/{str(post.json()["message_id"])}'
 
                 reply_markup = {
                     'inline_keyboard': [[
                         {
                             'text': '👉 Visualizar seu anúncio!', 
-                            'url': 'message_url'
+                            'url': message_url
                         }
                     ]]
                 }
 
                 new_ad_payload = {
-                    'chat_id': 'target_id', 
+                    'chat_id': post.json()['id'], 
                     'text': message,
                     'parse_mode': 'HTML',
                     'disable_web_page_preview': True, 
                     'reply_markup': reply_markup
                 }
+                post_notification = requests.post(SUBMIT_URL, data=new_ad_payload)
 
                 if (post.status_code != 200):
                     return jsonify({
