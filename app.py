@@ -147,10 +147,6 @@ def block(user_query: str, arguments: list) -> dict:
 
 
 def get_user(user_query: str, user_id: int) -> dict:
-    print('*' * 25)
-    print('GET_USER', user_query)
-    print('*' * 25)
-
     is_banned = "SIM" if user_query.is_banned == True else "NÃO"
     message = (
         f'Informações sobre o usuário {user_query.username}\n\n'
@@ -173,10 +169,6 @@ def get_user(user_query: str, user_id: int) -> dict:
 def get_last_users_list(user_id: int) -> dict:
     users_query = User.query.order_by(User.blocked_until.desc()).limit(USER_LIST_SIZE)
     message = ''
-
-    print('*' * 25)
-    print('USER_LIST', users_query)
-    print('*' * 25)
 
     if users_query:
         message += 'Lista dos usuários mais recentes do Bazar BGB\n\n'
@@ -280,18 +272,11 @@ def get_ad() -> dict:
 @app.route('/submit', methods=['GET', 'POST'])
 def submit() -> dict:
     if request.is_json:
-        print('*' * 25)
-        print('SUBMIT', request.json)
-        print('*' * 25)
 
         try:
             userid = request.json['id']
             username = request.json['username']
             user_query = User.query.filter_by(id=userid).first()
-
-            print('*' * 25)
-            print('SUBMIT_USER_QUERY', user_query)
-            print('*' * 25)
 
             is_blocked = False if user_query == None else user_query.blocked_until > datetime.now()
 
@@ -334,6 +319,8 @@ def submit() -> dict:
                     'disable_web_page_preview': True
                 }
                 post = requests.post(SUBMIT_URL, data=payload)
+                
+                print('*' * 15, ' SUBMIT ', '*' * 15)
                 utils.unpack_json(post.json())
 
                 message = 'Seu anúncio foi publicado no @BazarBGB com sucesso!'
@@ -397,6 +384,7 @@ def auth() -> dict:
 def router() -> dict:
     if request.is_json:
         try:
+            print('*' * 15, ' REQUEST ', '*' * 15)
             utils.unpack_json(request.json)
 
             json_object = request.json
@@ -466,7 +454,6 @@ def router() -> dict:
                             data = utils.edit_ad(message_key, json_object)  
 
                         if data['success'] == True:
-                            print(data)
                             update_ad_data = {
                                 'message_id': data['message_id'],
                                 'chat_id': BGB_BAZAR_CHANNEL_ID,
@@ -521,10 +508,6 @@ def router() -> dict:
                     user_query = User.query.filter_by(username=target).first()  \
                                         if target.isdigit() == False            \
                                         else User.query.filter_by(id=target).first()
-
-                    print('*' * 25)
-                    print('USER_QUERY', user_query)
-                    print('*' * 25)
 
                     if '/start' in command:
                         message = 'Bem-vindo ao bot oficial do Bazar BGB!'
