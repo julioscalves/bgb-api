@@ -342,13 +342,13 @@ def submit() -> dict:
                     'inline_keyboard': [[
                         {
                             'text': '👉 Visualizar seu anúncio!', 
-                            'url': message_url
+                            'url': 'message_url'
                         }
                     ]]
                 }
 
                 new_ad_payload = {
-                    'chat_id': target_id, 
+                    'chat_id': 'target_id', 
                     'text': message,
                     'parse_mode': 'HTML',
                     'disable_web_page_preview': True, 
