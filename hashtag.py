@@ -79,7 +79,7 @@ def manage_series(string):
         'Splendor',             'Monopoly',             'Arkham Horror',        'Scotland Yard',
         'Imagem & Ação',        'Resident Evil',        'DC',                   'Concordia',
         'Zurvivors'             'Codinomes',            'Código secreto',       'Black Stories',
-        'Expansion',
+        'Expansion',            'Cartógrafos',          'Cartographers',
     }
 
     for serie in series:

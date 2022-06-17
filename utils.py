@@ -193,6 +193,7 @@ def group_ads(ads: dict) -> str:
     }
 
     index = 1
+
     for group in groups.keys():
         if len(groups[group]) > 0:
             item_list = groups[group]
