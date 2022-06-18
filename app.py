@@ -319,14 +319,12 @@ def submit() -> dict:
                     'disable_web_page_preview': True
                 }
                 post = requests.post(SUBMIT_URL, data=payload)
-
-                print(post.json())
                 
                 print('*' * 15, ' SUBMIT ', '*' * 15)
                 utils.unpack_json(post.json())
 
                 message = 'Seu anúncio foi publicado no @BazarBGB com sucesso!'
-                message_url = f'https://t.me/c/{int(str(post.json()["id"]).replace("-100", ""))}/{str(post.json()["message_id"])}'
+                message_url = f'https://t.me/c/{int(str(post.json()["result"]["id"]).replace("-100", ""))}/{str(post.json()["result"]["message_id"])}'
 
                 reply_markup = {
                     'inline_keyboard': [[
@@ -338,7 +336,7 @@ def submit() -> dict:
                 }
 
                 new_ad_payload = {
-                    'chat_id': post.json()['id'], 
+                    'chat_id': post.json()['result']['id'], 
                     'text': message,
                     'parse_mode': 'HTML',
                     'disable_web_page_preview': True, 
