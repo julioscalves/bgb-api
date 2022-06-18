@@ -339,7 +339,7 @@ def submit() -> dict:
                     print(reply_markup)
 
                     new_ad_payload = {
-                        'chat_id': post.json()['result']['sender_chat']['id'], 
+                        'chat_id': userid, 
                         'text': message,
                         'parse_mode': 'HTML',
                         'disable_web_page_preview': True, 
@@ -347,7 +347,7 @@ def submit() -> dict:
                     }
                     print(new_ad_payload)
 
-                    post_notification = requests.post(SUBMIT_URL, data=new_ad_payload)
+                    post_notification = requests.post(SUBMIT_URL, json=new_ad_payload)
                     
                     print('*' * 15, ' NOTIFICATION ', '*' * 15)
                     utils.unpack_json(post_notification.json())
