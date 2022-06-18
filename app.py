@@ -326,8 +326,6 @@ def submit() -> dict:
                 if post.status_code == 200:
                     message = 'Seu anúncio foi publicado no @BazarBGB com sucesso!'
                     message_url = f'https://t.me/c/{int(str(post.json()["result"]["sender_chat"]["id"]).replace("-100", ""))}/{str(post.json()["result"]["message_id"])}'
-                    
-                    print(message_url)
 
                     reply_markup = {
                         'inline_keyboard': [[
@@ -337,6 +335,8 @@ def submit() -> dict:
                             }
                         ]]
                     }
+
+                    print(reply_markup)
 
                     new_ad_payload = {
                         'chat_id': post.json()['result']['sender_chat']['id'], 
