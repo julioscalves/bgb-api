@@ -319,6 +319,8 @@ def submit() -> dict:
                     'disable_web_page_preview': True
                 }
                 post = requests.post(SUBMIT_URL, data=payload)
+
+                print(post)
                 
                 print('*' * 15, ' SUBMIT ', '*' * 15)
                 utils.unpack_json(post.json())
