@@ -25,8 +25,5 @@ BOT_NAME = 'bazarbgb'
 SUBMIT_URL = f'https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage'
 EDIT_MESSAGE_URL = f'https://api.telegram.org/bot{TELEGRAM_TOKEN}/editMessageText'
 
-SMMRY_API_KEY = os.getenv('SMMRY_API_KEY')
-NEWS_SUBMIT_URL = f'https://api.telegram.org/bot{NEWS_BOT_TOKEN}/sendMessage'
-
 REMOVE_COMMANDS = ['/r', '/v', '/n']
 PRICE_COMMANDS = ['/ap']

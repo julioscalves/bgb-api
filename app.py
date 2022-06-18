@@ -233,20 +233,6 @@ def reputation(target: str, user_id: str) -> dict:
     })
 
 
-@app.route('/submit_news', methods=['POST'])
-def submit_news() -> dict:
-    if request.method == 'POST' and request.is_json:
-        data = request.get_json()
-
-        return jsonify({
-            'status': 'success'
-        })
-    
-    return jsonify({
-        'status': 'error'
-    })
-
-
 @app.route('/get_ad', methods=['GET', 'POST'])
 def get_ad() -> dict:
     if request.is_json:
@@ -324,7 +310,7 @@ def submit() -> dict:
                 utils.unpack_json(post.json())
 
                 if post.status_code == 200:
-                    message = 'Seu anúncio foi publicado no @BazarBGB com sucesso!'
+                    message = '✅ Seu anúncio foi publicado no @BazarBGB com sucesso!'
                     message_url = f'https://t.me/c/{int(str(post.json()["result"]["sender_chat"]["id"]).replace("-100", ""))}/{str(post.json()["result"]["message_id"])}'
 
                     reply_markup = {
