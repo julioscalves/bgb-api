@@ -320,7 +320,7 @@ def submit() -> dict:
                 }
                 post = requests.post(SUBMIT_URL, data=payload)
 
-                print(post)
+                print(post.json())
                 
                 print('*' * 15, ' SUBMIT ', '*' * 15)
                 utils.unpack_json(post.json())
