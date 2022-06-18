@@ -323,29 +323,32 @@ def submit() -> dict:
                 print('*' * 15, ' SUBMIT ', '*' * 15)
                 utils.unpack_json(post.json())
 
-                message = 'Seu anúncio foi publicado no @BazarBGB com sucesso!'
-                message_url = f'https://t.me/c/{int(str(post.json()["result"]["sender_chat"]["id"]).replace("-100", ""))}/{str(post.json()["result"]["message_id"])}'
+                if post.status_code == 200:
+                    message = 'Seu anúncio foi publicado no @BazarBGB com sucesso!'
+                    message_url = f'https://t.me/c/{int(str(post.json()["result"]["sender_chat"]["id"]).replace("-100", ""))}/{str(post.json()["result"]["message_id"])}'
+                    
+                    print(message_url)
 
-                reply_markup = {
-                    'inline_keyboard': [[
-                        {
-                            'text': '👉 Visualizar seu anúncio!', 
-                            'url': message_url
-                        }
-                    ]]
-                }
+                    reply_markup = {
+                        'inline_keyboard': [[
+                            {
+                                'text': '👉 Visualizar seu anúncio!', 
+                                'url': message_url
+                            }
+                        ]]
+                    }
 
-                new_ad_payload = {
-                    'chat_id': post.json()['result']['sender_chat']['id'], 
-                    'text': message,
-                    'parse_mode': 'HTML',
-                    'disable_web_page_preview': True, 
-                    'reply_markup': reply_markup
-                }
-                post_notification = requests.post(SUBMIT_URL, data=new_ad_payload)
-                
-                print('*' * 15, ' NOTIFICATION ', '*' * 15)
-                utils.unpack_json(post_notification.json())
+                    new_ad_payload = {
+                        'chat_id': post.json()['result']['sender_chat']['id'], 
+                        'text': message,
+                        'parse_mode': 'HTML',
+                        'disable_web_page_preview': True, 
+                        'reply_markup': reply_markup
+                    }
+                    post_notification = requests.post(SUBMIT_URL, data=new_ad_payload)
+                    
+                    print('*' * 15, ' NOTIFICATION ', '*' * 15)
+                    utils.unpack_json(post_notification.json())
 
                 if (post.status_code != 200):
                     return jsonify({
