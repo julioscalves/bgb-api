@@ -324,7 +324,7 @@ def submit() -> dict:
                 utils.unpack_json(post.json())
 
                 message = 'Seu anúncio foi publicado no @BazarBGB com sucesso!'
-                message_url = f'https://t.me/c/{int(str(post.json()["result"]["id"]).replace("-100", ""))}/{str(post.json()["result"]["message_id"])}'
+                message_url = f'https://t.me/c/{int(str(post.json()["result"]["sender_chat"]["id"]).replace("-100", ""))}/{str(post.json()["result"]["message_id"])}'
 
                 reply_markup = {
                     'inline_keyboard': [[
@@ -336,7 +336,7 @@ def submit() -> dict:
                 }
 
                 new_ad_payload = {
-                    'chat_id': post.json()['result']['id'], 
+                    'chat_id': post.json()['result']['sender_chat']['id'], 
                     'text': message,
                     'parse_mode': 'HTML',
                     'disable_web_page_preview': True, 
