@@ -336,8 +336,6 @@ def submit() -> dict:
                         ]]
                     }
 
-                    print(reply_markup)
-
                     new_ad_payload = {
                         'chat_id': userid, 
                         'text': message,
@@ -345,7 +343,6 @@ def submit() -> dict:
                         'disable_web_page_preview': True, 
                         'reply_markup': reply_markup
                     }
-                    print(new_ad_payload)
 
                     post_notification = requests.post(SUBMIT_URL, json=new_ad_payload)
                     
