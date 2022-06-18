@@ -343,6 +343,9 @@ def submit() -> dict:
                     'reply_markup': reply_markup
                 }
                 post_notification = requests.post(SUBMIT_URL, data=new_ad_payload)
+                
+                print('*' * 15, ' NOTIFICATION ', '*' * 15)
+                utils.unpack_json(post_notification.json())
 
                 if (post.status_code != 200):
                     return jsonify({
