@@ -345,6 +345,8 @@ def submit() -> dict:
                         'disable_web_page_preview': True, 
                         'reply_markup': reply_markup
                     }
+                    print(new_ad_payload)
+
                     post_notification = requests.post(SUBMIT_URL, data=new_ad_payload)
                     
                     print('*' * 15, ' NOTIFICATION ', '*' * 15)
