@@ -387,8 +387,9 @@ def router() -> dict:
 
             if 'reply_to_message' in json_object['message'] and json_object['message']['chat']['type'] != 'private':
                 message_key = 'edited_message' if 'edited_message' in json_object.keys() else 'message'
-
                 first_word = json_object[message_key]['text'].split(' ')[0]
+                print("first_word", first_word)
+                
                 if first_word not in REMOVE_COMMANDS and first_word not in PRICE_COMMANDS:
                     response = notify(json_object)
 
@@ -437,10 +438,12 @@ def router() -> dict:
 
                     if (owner_user_id == command_user_id or command_user_id in TRUSTED_USERS) and is_bot_message == False:
                         text = json_object[message_key]['text']
+                        print("text", text)
                         command, *arguments = utils.unpack_command_and_arguments(text)
                         data = { 'success': False }
 
                         if command in REMOVE_COMMANDS and len(arguments) >= 1:
+                            print('remove command')
                             data = utils.edit_ad(message_key, json_object)
 
                         elif command in PRICE_COMMANDS and len(arguments) == 2:
