@@ -455,11 +455,20 @@ def router() -> dict:
                             }
                             edit_message(update_ad_data)
 
-                            response_message_data = {
-                                'chat_id': BGB_BAZAR_COMMENTS_ID,
-                                'text': data['response'],
-                                'reply_to_message_id': json_object[message_key]['reply_to_message']['message_id'],
-                            }
+                            if owner_user_id != command_user_id and command_user_id in TRUSTED_USERS:
+                                response_message_data = {
+                                    'chat_id': BGB_BAZAR_COMMENTS_ID,
+                                    'text': "Anúncio atualizado pela administração!",
+                                    'reply_to_message_id': json_object[message_key]['reply_to_message']['message_id'],
+                                }
+
+                            else:
+                                response_message_data = {
+                                    'chat_id': BGB_BAZAR_COMMENTS_ID,
+                                    'text': data['response'],
+                                    'reply_to_message_id': json_object[message_key]['reply_to_message']['message_id'],
+                                }
+                                
                             send_message(response_message_data)
                               
             elif 'Telegram' in json_object['message']['from']['first_name'] and BOT_NAME in json_object['message']['sender_chat']['username']:
