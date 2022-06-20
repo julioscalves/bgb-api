@@ -388,7 +388,6 @@ def router() -> dict:
             if 'reply_to_message' in json_object['message'] and json_object['message']['chat']['type'] != 'private':
                 message_key = 'edited_message' if 'edited_message' in json_object.keys() else 'message'
                 first_word = json_object[message_key]['text'].split(' ')[0]
-                print("first_word", first_word)
                 
                 if first_word not in REMOVE_COMMANDS and first_word not in PRICE_COMMANDS:
                     response = notify(json_object)
@@ -438,7 +437,6 @@ def router() -> dict:
 
                     if (owner_user_id == command_user_id or command_user_id in TRUSTED_USERS) and is_bot_message == False:
                         text = json_object[message_key]['text']
-                        print("text", text)
                         command, *arguments = utils.unpack_command_and_arguments(text)
                         data = { 'success': False }
 
@@ -458,9 +456,14 @@ def router() -> dict:
                             }
                             edit_message(update_ad_data)
 
+                            reply = data['response']
+
+                            if owner_user_id != command_user_id and command_user_id in TRUSTED_USERS:
+                                reply = "Anúncio atualizado pela administração!"
+
                             response_message_data = {
                                 'chat_id': BGB_BAZAR_COMMENTS_ID,
-                                'text': data['response'],
+                                'text': reply,
                                 'reply_to_message_id': json_object[message_key]['reply_to_message']['message_id'],
                             }
                             send_message(response_message_data)

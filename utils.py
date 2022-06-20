@@ -428,13 +428,8 @@ def edit_ad(message_key: str, data: dict) -> str:
 
     except Exception as error:
         print('ERROR at response message assemble: ', error)
-
-    if user in TRUSTED_USERNAMES:
-        response['response'] = 'Anúncio atualizado pela administração!'
     
-    else:
-        response['response'] = response_message
-    
+    response['response'] = response_message
     print('TARGET: ', command, arguments)
 
     return response
