@@ -440,11 +440,11 @@ def router() -> dict:
                         command, *arguments = utils.unpack_command_and_arguments(text)
                         data = { 'success': False }
 
-                        if command in utils.REMOVE_COMMANDS and len(arguments) >= 1:
+                        if command in REMOVE_COMMANDS and len(arguments) >= 1:
                             data = utils.edit_ad(message_key, json_object)
 
-                        elif command in utils.PRICE_COMMANDS and len(arguments) == 2:
-                            data = utils.edit_ad(message_key, json_object)  
+                        elif command in PRICE_COMMANDS and len(arguments) == 2:
+                            data = local.edit_ad(message_key, json_object)  
 
                         if data['success'] == True:
                             update_ad_data = {
@@ -455,20 +455,11 @@ def router() -> dict:
                             }
                             edit_message(update_ad_data)
 
-                            if owner_user_id != command_user_id and command_user_id in TRUSTED_USERS:
-                                response_message_data = {
-                                    'chat_id': BGB_BAZAR_COMMENTS_ID,
-                                    'text': "Anúncio atualizado pela administração!",
-                                    'reply_to_message_id': json_object[message_key]['reply_to_message']['message_id'],
-                                }
-
-                            else:
-                                response_message_data = {
-                                    'chat_id': BGB_BAZAR_COMMENTS_ID,
-                                    'text': data['response'],
-                                    'reply_to_message_id': json_object[message_key]['reply_to_message']['message_id'],
-                                }
-                                
+                            response_message_data = {
+                                'chat_id': BGB_BAZAR_COMMENTS_ID,
+                                'text': data['response'],
+                                'reply_to_message_id': json_object[message_key]['reply_to_message']['message_id'],
+                            }
                             send_message(response_message_data)
                               
             elif 'Telegram' in json_object['message']['from']['first_name'] and BOT_NAME in json_object['message']['sender_chat']['username']:
