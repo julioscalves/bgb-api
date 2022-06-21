@@ -445,7 +445,7 @@ def router() -> dict:
                             data = utils.edit_ad(message_key, json_object)
 
                         elif command in PRICE_COMMANDS and len(arguments) == 2:
-                            data = local.edit_ad(message_key, json_object)  
+                            data = utils.edit_ad(message_key, json_object)  
 
                         if data['success'] == True:
                             update_ad_data = {
